@@ -249,6 +249,7 @@ TEST_P(Operator, end2end) {
   // STEP2 - Use the profile to quantize a network.
   F2 = quantization::quantizeFunction(backendSpecificEE, QI, F2);
   SaveNode *result2 = cast<SaveNode>(F2->getNodeByName("save"));
+  F2->getParent()->dumpDAG();
   
   backendSpecificEE.compile(CompilationMode::Infer, F2);
   backendSpecificEE.run({}, {});
