@@ -247,9 +247,9 @@ TEST_P(Operator, end2end) {
       quantization::generateNodeQuantizationInfos(F1);
 
   // STEP2 - Use the profile to quantize a network.
-  SaveNode *result2 = cast<SaveNode>(F2->getNodeByName("save"));
-
   F2 = quantization::quantizeFunction(backendSpecificEE, QI, F2);
+  SaveNode *result2 = cast<SaveNode>(F2->getNodeByName("save"));
+  
   backendSpecificEE.compile(CompilationMode::Infer, F2);
   backendSpecificEE.run({}, {});
 
@@ -382,9 +382,9 @@ TEST_P(Operator, end2endGRU) {
       quantization::generateNodeQuantizationInfos(F1);
 
   // STEP2 - Use the profile to quantize a network.
-  SaveNode *result2 = cast<SaveNode>(F2->getNodeByName("save"));
-
   F2 = quantization::quantizeFunction(backendSpecificEE, QI, F2);
+  SaveNode *result2 = cast<SaveNode>(F2->getNodeByName("save"));
+  
   backendSpecificEE.compile(CompilationMode::Infer, F2);
   backendSpecificEE.run({}, {});
 
