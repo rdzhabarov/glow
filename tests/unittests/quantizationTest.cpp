@@ -242,6 +242,11 @@ TEST_P(Operator, end2end) {
   // Run graph to capture profile.
   interpreterEE.run({}, {});
 
+  // Cloning function does not duplicate varibles written by
+  // save nodes. Make sure to capture results from the first
+  // inference and store that in tensor1.
+  Tensor tensor1 = result1->getVariable()->getPayload().clone(); 
+
   // Get quantization infos and build new quantized graph.
   std::vector<NodeQuantizationInfo> QI =
       quantization::generateNodeQuantizationInfos(F1);
@@ -255,12 +260,11 @@ TEST_P(Operator, end2end) {
   backendSpecificEE.run({}, {});
 
   // STEP3 - Compare the results of the original and quantized functions.
-  auto result1Handle = result1->getVariable()->getHandle();
   auto result2Handle = result2->getVariable()->getHandle();
 
-  EXPECT_EQ(result1Handle.size(), result2Handle.size());
+  EXPECT_EQ(result1.size(), result2Handle.size());
 
-  for (int i = 0, e = result1Handle.size(); i < e; ++i) {
+  for (int i = 0, e = result1.size(); i < e; ++i) {
     float mx = result2Handle.raw(result2Handle.minMaxArg().second);
     double diff = std::fabs(result2Handle.raw(i) - result1Handle.raw(i)) / mx;
 
