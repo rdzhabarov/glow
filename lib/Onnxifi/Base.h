@@ -34,7 +34,9 @@ namespace onnxifi {
 /// BackendId associated with the Glow backend.
 class BackendId {
 public:
-  explicit BackendId(int id) : id_(id) {}
+  /// Create Glow ONNXIFI backend with the given Glow backend \p kind and \p id.
+  explicit BackendId(glow::BackendKind kind, int id)
+      : id_(id), executionEngine_(kind) {}
 
   /// Verify that given operation kind is supported by the backend.
   bool isOpSupported(Kinded::Kind opKind, ElemKind elementTy);
@@ -44,8 +46,7 @@ public:
 
 private:
   int id_;
-  // By default use the Interpreter backend.
-  glow::ExecutionEngine executionEngine_{glow::BackendKind::Interpreter};
+  glow::ExecutionEngine executionEngine_;
 };
 
 typedef BackendId *BackendIdPtr;
