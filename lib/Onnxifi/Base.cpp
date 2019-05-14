@@ -64,13 +64,14 @@ onnxStatus BackendId::checkGraphCompatibility(const void *onnxModel,
 
   if (!function->verify()) {
     llvm::errs() << "ONNXIFI: Function verification failed.\n";
-    return ONNXIFI_STATUS_UNSUPPORTED_OPERATOR; 
+    return ONNXIFI_STATUS_UNSUPPORTED_OPERATOR;
   }
-  
+
   const auto &nodes = function->getNodes();
   for (const auto &node : nodes) {
     if (!glowBackend_->isOpSupported(node)) {
-      llvm::errs() << "ONNXIFI: Not supported op: " << node.getDebugDesc() << "\n";
+      llvm::errs() << "ONNXIFI: Not supported op: " << node.getDebugDesc()
+                   << "\n";
       // TODO: Use a more specific ONNXIFI error code here to denote what about
       // this operator is not supported (shape, type, etc).
       return ONNXIFI_STATUS_UNSUPPORTED_OPERATOR;
