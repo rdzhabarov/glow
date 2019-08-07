@@ -16,6 +16,8 @@
 #ifndef GLOW_BACKENDS_OPENCL_OPENCL_H
 #define GLOW_BACKENDS_OPENCL_OPENCL_H
 
+#include "OpenCLDeviceManager.h"
+
 #include "glow/Backend/Backend.h"
 #include "glow/Backend/BackendUtils.h"
 #include "glow/Backend/CompiledFunction.h"
@@ -215,6 +217,12 @@ public:
   /// Size of each TraceEvent (for manual events).
   size_t getTraceEventDataSize() const override { return sizeof(uint64_t); }
 
+  virtual runtime::DeviceManager *
+  createDeviceManager(const runtime::DeviceConfig &deviceConfig) override {
+    return createOCLDeviceManager(deviceConfig);
+  }
+
+private:
   /// Parses the graph \F and builds a TraceInfo structure from any found
   /// TraceEventNodes.
   TraceInfo buildManualTraceInfo(Function *F) const;

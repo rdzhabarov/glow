@@ -15,6 +15,7 @@
  */
 #include "InterpreterDeviceManager.h"
 #include "Interpreter.h"
+#include "glow/Support/Register.h"
 
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/raw_ostream.h"

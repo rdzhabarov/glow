@@ -136,6 +136,11 @@ class MockBackend : public Backend {
   bool generateInst(Node *N, IRGenVisitor &irgen) const override {
     return false;
   }
+
+  runtime::DeviceManager *
+  createDeviceManager(const runtime::DeviceConfig &deviceConfig) override {
+    return nullptr;
+  }
 };
 
 /// MockBackendCustomIRGen used only for unit testing to test custom lowering
@@ -161,6 +166,11 @@ class MockBackendCustomIRGen : public Backend {
   }
 
   bool isOpSupported(const NodeInfo &NI) const override { return false; }
+
+  runtime::DeviceManager *
+  createDeviceManager(const runtime::DeviceConfig &deviceConfig) override {
+    return nullptr;
+  }
 
   bool generateInst(Node *N, IRGenVisitor &irgen) const override {
     bool hasChanged = false;
